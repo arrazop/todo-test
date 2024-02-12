@@ -6,18 +6,19 @@ import * as Styled from './styled';
 
 type Props = {
   title: string;
+  onFloatingPress: () => void;
   children: React.ReactNode;
 };
 
 const HomeTemplate: React.FC<Props> = props => (
   <>
     <Styled.Container>
-      <SafeAreaView>
-        {props.title && <Styled.Title>{props.title}</Styled.Title>}
+      <SafeAreaView style={{flex: 1}}>
+        {!!props.title && <Styled.Title>{props.title}</Styled.Title>}
         {props.children}
       </SafeAreaView>
     </Styled.Container>
-    <Styled.FloatingButton>
+    <Styled.FloatingButton onPress={props.onFloatingPress}>
       <PlusIcon color={'white'} size={40} />
     </Styled.FloatingButton>
   </>

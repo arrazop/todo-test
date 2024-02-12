@@ -1,14 +1,16 @@
-import {createSlice, nanoid} from '@reduxjs/toolkit';
+import {createSelector, createSlice, nanoid} from '@reduxjs/toolkit';
 import {Todo} from '../../types';
 import {actionTypes} from './types';
 import {RootState} from '../store';
 
 type TodoState = {
-  todos: Todo[];
+  todosById: Record<string, Todo>;
+  todoIds: string[];
 };
 
 const initialState: TodoState = {
-  todos: [],
+  todosById: {},
+  todoIds: [],
 };
 
 const todoSlice = createSlice({
@@ -16,28 +18,28 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: actionTypes.addTodo) => {
-      const newTodo: Todo = {
-        id: nanoid(),
-        title: action.payload.title,
-        description: action.payload.description,
-        createdAt: new Date().toISOString(),
+      const {title, description} = action.payload;
+      const id = nanoid();
+      const createdAt = new Date().toISOString();
+      state.todosById[id] = {
+        id,
+        title,
+        description,
+        createdAt,
         completed: false,
       };
-      state.todos.push(newTodo);
+      state.todoIds.push(id);
     },
     toggleComplete: (state, action: actionTypes.selectedTodo) => {
-      const todo = state.todos.find(todo => todo.id === action.payload.id);
+      const todo = state.todosById[action.payload.id];
       if (todo) {
         todo.completed = !todo.completed;
       }
     },
     deleteTodo: (state, action: actionTypes.selectedTodo) => {
-      const index = state.todos.findIndex(
-        todo => todo.id === action.payload.id,
-      );
-      if (index !== -1) {
-        state.todos.splice(index, 1);
-      }
+      const id = action.payload.id;
+      delete state.todosById[id];
+      state.todoIds = state.todoIds.filter(todoId => todoId !== id);
     },
   },
 });
@@ -45,8 +47,23 @@ const todoSlice = createSlice({
 export const {reducer, actions} = todoSlice;
 
 const root = (state: RootState) => state[todoSlice.name];
-const todos = (state: RootState) => root(state).todos;
+
+const todosById = createSelector(root, todoState => todoState.todosById);
+const todoIds = createSelector(root, todoState => todoState.todoIds);
+const todos = createSelector(root, todosState =>
+  todosState.todoIds.map(id => todosState.todosById[id]),
+);
+const selectCompletedTodos = createSelector(root, todoList =>
+  todoList.todoIds.filter(id => todoList.todosById[id].completed),
+);
+const selectIncompletesTodos = createSelector(root, todoList =>
+  todoList.todoIds.filter(id => !todoList.todosById[id].completed),
+);
 
 export const selectors = {
+  todosById,
+  todoIds,
   todos,
+  selectCompletedTodos,
+  selectIncompletesTodos,
 };

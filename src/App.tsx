@@ -6,6 +6,7 @@ import {persistor, store} from './redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import HomeScreen from './screens/home';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 function App(): React.JSX.Element {
   return (
@@ -13,7 +14,9 @@ function App(): React.JSX.Element {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider theme={myTheme}>
-            <HomeScreen />
+            <BottomSheetModalProvider>
+              <HomeScreen />
+            </BottomSheetModalProvider>
           </ThemeProvider>
         </PersistGate>
       </Provider>
