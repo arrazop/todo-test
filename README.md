@@ -44,7 +44,7 @@ Contributions are welcome! If you'd like to contribute to improving this applica
 
 ## Author
 
-Created by [Your Name](https://github.com/your-username)
+Created by [Pedro Arrazola](https://github.com/arrazop)
 
 ## License
 
