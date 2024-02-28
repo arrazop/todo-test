@@ -25,18 +25,20 @@ const renderRightActions = () => (
 );
 
 export const TodoListItem: React.FC<Props> = React.memo(
-  ({todo, toggleTodo, deleteTodo}) => (
-    <Swipeable
-      renderRightActions={renderRightActions}
-      onSwipeableRightOpen={deleteTodo}>
-      <Card
-        onToggle={toggleTodo}
-        completed={todo.completed}
-        title={todo.title}
-        description={todo.description}
-      />
-    </Swipeable>
-  ),
+  ({todo, toggleTodo, deleteTodo}) => {
+    return (
+      <Swipeable
+        renderRightActions={renderRightActions}
+        onSwipeableRightOpen={deleteTodo}>
+        <Card
+          onToggle={toggleTodo}
+          completed={todo.completed}
+          title={todo.title}
+          description={todo.description}
+        />
+      </Swipeable>
+    );
+  },
 );
 
 export const NormalizedTodoListItem: React.FC<{todoId: string}> = React.memo(
@@ -48,11 +50,15 @@ export const NormalizedTodoListItem: React.FC<{todoId: string}> = React.memo(
     );
 
     const deleteTodo = () => {
-      dispatch(actions.todo.deleteTodo({id: todoId}));
+      if (todo) {
+        dispatch(actions.todo.deleteTodo({id: todoId}));
+      }
     };
 
     const toggleTodo = () => {
-      dispatch(actions.todo.toggleComplete({id: todoId}));
+      if (todo) {
+        dispatch(actions.todo.toggleComplete({id: todoId}));
+      }
     };
 
     if (!todo) {
@@ -61,6 +67,7 @@ export const NormalizedTodoListItem: React.FC<{todoId: string}> = React.memo(
 
     return (
       <TodoListItem
+        key={`${todoId}_${todo.completed}`}
         todo={todo}
         deleteTodo={deleteTodo}
         toggleTodo={toggleTodo}

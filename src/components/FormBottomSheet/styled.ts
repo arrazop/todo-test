@@ -5,12 +5,13 @@ export const Container = styled.View`
   padding: 10px;
 `;
 
-export const Input = styled(BottomSheetTextInput)`
+export const Input = styled(BottomSheetTextInput)<{$error?: boolean}>`
   padding: 10px;
   height: 50px;
   border-width: 1px;
   border-radius: 10px;
-  border-color: ${({theme}) => theme.colors.grey.three};
+  border-color: ${({theme, $error}) =>
+    $error ? theme.colors.red : theme.colors.grey.three};
   margin-bottom: 10px;
 `;
 
