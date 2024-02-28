@@ -11,6 +11,7 @@ import {Text} from 'react-native';
 import Card from '../Card';
 
 type Props = {
+  testID: string;
   todo: Todo;
   toggleTodo: () => void;
   deleteTodo: () => void;
@@ -25,9 +26,10 @@ const renderRightActions = () => (
 );
 
 export const TodoListItem: React.FC<Props> = React.memo(
-  ({todo, toggleTodo, deleteTodo}) => {
+  ({todo, toggleTodo, deleteTodo, testID}) => {
     return (
       <Swipeable
+        testID={testID}
         renderRightActions={renderRightActions}
         onSwipeableRightOpen={deleteTodo}>
         <Card

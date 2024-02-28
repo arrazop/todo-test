@@ -38,28 +38,33 @@ const FormBottomSheet = React.forwardRef<BottomSheetModalMethods, Props>(
 
     return (
       <BottomSheetModal
+        testID="Modal"
         ref={ref}
         snapPoints={props.snapPoints}
         enableContentPanningGesture={true}
         onChange={props.onChange}>
-        <Styled.Container>
-          <Styled.Title>Awesome, keep achieving tasks 🎉</Styled.Title>
+        <Styled.Container testID="Modal-container">
+          <Styled.Title testID="Modal-title">
+            Awesome, keep achieving tasks 🎉
+          </Styled.Title>
           <Styled.Input
+            testID="Modal-task-input"
             placeholder="Task *"
             $error={formError}
             onChangeText={setTaskName}
             value={taskName}
           />
           <Styled.Input
+            testID="Modal-task-desc"
             placeholder="Description"
             onChangeText={setDescription}
             value={description}
           />
           <Styled.Row>
-            <Styled.Button onPress={onClose}>
+            <Styled.Button testID="Modal-cancel-button" onPress={onClose}>
               <Styled.Label>Cancel</Styled.Label>
             </Styled.Button>
-            <Styled.Button onPress={onSubmit}>
+            <Styled.Button testID="Modal-submit-button" onPress={onSubmit}>
               <Styled.Label>Add</Styled.Label>
             </Styled.Button>
           </Styled.Row>

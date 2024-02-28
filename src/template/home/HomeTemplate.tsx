@@ -1,5 +1,5 @@
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {Fragment} from 'react';
+import {SafeAreaView, View, ViewBase} from 'react-native';
 import {PlusIcon} from 'react-native-heroicons/solid';
 
 import * as Styled from './styled';
@@ -11,16 +11,20 @@ type Props = {
 };
 
 const HomeTemplate: React.FC<Props> = props => (
-  <>
-    <Styled.Container>
-      <SafeAreaView style={{flex: 1}}>
-        {!!props.title && <Styled.Title>{props.title}</Styled.Title>}
+  <Styled.Root testID="HomeTemplate">
+    <Styled.Container testID="HomeTemplatePageContainer">
+      <SafeAreaView style={{flex: 1}} testID="SafeAreaView">
+        {!!props.title && (
+          <Styled.Title testID="HomeTitle">{props.title}</Styled.Title>
+        )}
         {props.children}
       </SafeAreaView>
     </Styled.Container>
-    <Styled.FloatingButton onPress={props.onFloatingPress}>
-      <PlusIcon color={'white'} size={40} />
+    <Styled.FloatingButton
+      testID="AddTodoButton"
+      onPress={props.onFloatingPress}>
+      <PlusIcon testID="AddTodoIcon" color={'white'} size={40} />
     </Styled.FloatingButton>
-  </>
+  </Styled.Root>
 );
 export default HomeTemplate;

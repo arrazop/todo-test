@@ -14,14 +14,20 @@ const HomeScreen: React.FC = () => {
   const [refreshFlag, setRefreshFlag] = useState(false);
 
   const renderItem: ListRenderItem<string> = useCallback(({item, index}) => {
-    return <NormalizedTodoListItem todoId={item} key={`${item}_${index}`} />;
+    return (
+      <NormalizedTodoListItem
+        testID={`item-${item}`}
+        todoId={item}
+        key={`${item}_${index}`}
+      />
+    );
   }, []);
 
   const keyExtractor = (item: string, index: number) => `${item}_${index}`;
 
   const renderSectionHeader = useCallback(
     ({section}: {section: {title: string}}) => (
-      <SectionHeader>
+      <SectionHeader testID="SectionHeader">
         <SectionTitle>{section.title}</SectionTitle>
       </SectionHeader>
     ),
@@ -38,6 +44,7 @@ const HomeScreen: React.FC = () => {
   return (
     <HomeTemplate title="Todo App" onFloatingPress={handlePresentModalPress}>
       <SectionList
+        testID="TodoList"
         style={{flex: 1}}
         ItemSeparatorComponent={Separator}
         sections={todoList}

@@ -16,11 +16,17 @@ const Card: React.FC<Props> = React.memo(
       <Styled.Row>
         <Radio selected={completed} onToggle={onToggle} />
         <Styled.Center>
-          <Styled.Title $completed={completed} numberOfLines={1}>
+          <Styled.Title
+            testID={'card-title-item'}
+            $completed={completed}
+            numberOfLines={1}>
             {title}
           </Styled.Title>
           {description && (
-            <Styled.Description $completed={completed} numberOfLines={3}>
+            <Styled.Description
+              testID="card-desc-item"
+              $completed={completed}
+              numberOfLines={3}>
               {description}
             </Styled.Description>
           )}
