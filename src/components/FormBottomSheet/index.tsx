@@ -13,6 +13,7 @@ interface Props {
 
 const FormBottomSheet = React.forwardRef<BottomSheetModalMethods, Props>(
   (props, ref) => {
+    const [formError, setFormError] = useState(false);
     const [taskName, setTaskName] = useState('');
     const [description, setDescription] = useState('');
     const dispatch = useAppDispatch();
@@ -20,12 +21,14 @@ const FormBottomSheet = React.forwardRef<BottomSheetModalMethods, Props>(
 
     const onClose = useCallback(() => {
       setTaskName('');
+      setFormError(false);
       setDescription('');
       dismiss();
     }, [dismiss]);
 
     const onSubmit = useCallback(() => {
       if (!taskName) {
+        setFormError(true);
         return;
       }
 
@@ -43,6 +46,7 @@ const FormBottomSheet = React.forwardRef<BottomSheetModalMethods, Props>(
           <Styled.Title>Awesome, keep achieving tasks 🎉</Styled.Title>
           <Styled.Input
             placeholder="Task *"
+            $error={formError}
             onChangeText={setTaskName}
             value={taskName}
           />

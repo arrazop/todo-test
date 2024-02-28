@@ -13,7 +13,7 @@ const initialState: TodoState = {
   todoIds: [],
 };
 
-const todoSlice = createSlice({
+export const todoSlice = createSlice({
   name: 'todo',
   initialState,
   reducers: {
@@ -21,25 +21,28 @@ const todoSlice = createSlice({
       const {title, description} = action.payload;
       const id = nanoid();
       const createdAt = new Date().toISOString();
-      state.todosById[id] = {
+      const newTodo = {
         id,
         title,
         description,
         createdAt,
         completed: false,
       };
+      state.todosById[id] = newTodo;
       state.todoIds.push(id);
     },
     toggleComplete: (state, action: actionTypes.selectedTodo) => {
-      const todo = state.todosById[action.payload.id];
-      if (todo) {
-        todo.completed = !todo.completed;
+      const todoId = action.payload.id;
+      if (state.todosById[todoId]) {
+        state.todosById[todoId].completed = !state.todosById[todoId].completed;
       }
     },
     deleteTodo: (state, action: actionTypes.selectedTodo) => {
-      const id = action.payload.id;
-      delete state.todosById[id];
-      state.todoIds = state.todoIds.filter(todoId => todoId !== id);
+      const todoId = action.payload.id;
+      if (state.todosById[todoId]) {
+        delete state.todosById[todoId];
+        state.todoIds = state.todoIds.filter(id => id !== todoId);
+      }
     },
   },
 });

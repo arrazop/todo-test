@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import HomeTemplate from '../../template/home/HomeTemplate';
 import useProps from './hooks/useProps';
@@ -7,17 +7,14 @@ import {ListRenderItem, SectionList} from 'react-native';
 
 import {SectionHeader, SectionTitle, Separator} from './styled';
 import {NormalizedTodoListItem} from '../../components/TodoListItem';
-import {useAppSelector} from '../../redux/hooks';
-import {selectors} from '../../redux';
 
 const HomeScreen: React.FC = () => {
   const {handlePresentModalPress, bottomSheetModalRef, snapPoints, todoList} =
     useProps();
-  const todoListIds = useAppSelector(selectors.todo.todoIds);
-  const [refreshFlag, setRefreshFlag] = useState(false); // Step 1: Define the refresh flag state
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
-  const renderItem: ListRenderItem<string> = useCallback(({item}) => {
-    return <NormalizedTodoListItem todoId={item} key={item} />;
+  const renderItem: ListRenderItem<string> = useCallback(({item, index}) => {
+    return <NormalizedTodoListItem todoId={item} key={`${item}_${index}`} />;
   }, []);
 
   const keyExtractor = (item: string, index: number) => `${item}_${index}`;
